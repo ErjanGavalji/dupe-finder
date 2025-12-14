@@ -16,7 +16,13 @@ func main() {
 			fmt.Printf("prevent panic by handling failure accessing %q: %v\n", path, err)
 			return err
 		}
-		fmt.Printf("visited file or dir: %q\n", path)
+		var fsItemType string
+		fsItemType = "file"
+
+		if info.IsDir() {
+			fsItemType = "dir"
+		}
+		fmt.Printf("visited %q: %q\n", fsItemType, path)
 		return nil
 	})
 	if err != nil {
