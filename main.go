@@ -7,6 +7,13 @@ import (
 	"path/filepath"
 )
 
+func isImage(path string) bool {
+	if filepath.Ext(path) == ".png" {
+		return true
+	}
+	return false
+}
+
 func main() {
 	var rootDir string
 	flag.StringVar(&rootDir, "root-dir", ".", "Root directory. Defaults to .")
@@ -16,13 +23,14 @@ func main() {
 			fmt.Printf("prevent panic by handling failure accessing %q: %v\n", path, err)
 			return err
 		}
-		var fsItemType string
-		fsItemType = "file"
 
 		if info.IsDir() {
-			fsItemType = "dir"
+			return nil
 		}
-		fmt.Printf("visited %s %q\n", fsItemType, path)
+		if isImage(path) {
+			fmt.Printf("image found: %s\n", path)
+		}
+
 		return nil
 	})
 	if err != nil {
