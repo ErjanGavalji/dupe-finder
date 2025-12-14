@@ -22,7 +22,7 @@ func main() {
 		if info.IsDir() {
 			fsItemType = "dir"
 		}
-		fmt.Printf("visited %q: %q\n", fsItemType, path)
+		fmt.Printf("visited %s %q\n", fsItemType, path)
 		return nil
 	})
 	if err != nil {
