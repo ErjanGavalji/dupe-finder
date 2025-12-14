@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"io/fs"
 	"path/filepath"
+	"slices"
 )
 
 func isImage(path string) bool {
-	if filepath.Ext(path) == ".png" {
-		return true
-	}
-	return false
+	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
+	ext := filepath.Ext(path)
+	return slices.Contains(validExts, ext)
 }
 
 func main() {
