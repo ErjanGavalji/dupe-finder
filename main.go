@@ -6,11 +6,12 @@ import (
 	"io/fs"
 	"path/filepath"
 	"slices"
+	"strings"
 )
 
 func isImage(path string) bool {
 	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
-	ext := filepath.Ext(path)
+	ext := strings.ToLower(filepath.Ext(path))
 	return slices.Contains(validExts, ext)
 }
 
