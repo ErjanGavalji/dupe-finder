@@ -51,7 +51,7 @@ func main() {
 	}
 
 	for _, imagePath := range allImages {
-		fmt.Printf("Found imaage under %q\n", imagePath)
+		fmt.Printf("Found image under %q\n", imagePath)
 	}
 
 	fmt.Println(rootDir)
