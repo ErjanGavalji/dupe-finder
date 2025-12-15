@@ -1,13 +1,22 @@
 package main
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"flag"
 	"fmt"
+	"io"
 	"io/fs"
+	"os"
 	"path/filepath"
 	"slices"
 	"strings"
 )
+
+type ImageInfo struct {
+	Path     string
+	HashCode string
+}
 
 func isImage(path string) bool {
 	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
@@ -38,6 +47,35 @@ func readImages(rootDir string) (images []string, err error) {
 	return allImages, nil
 }
 
+func calculateHash(path string) (string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	hash := md5.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(hash.Sum(nil)), nil
+}
+
+func computeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []ImageInfo, err error) {
+	imageInfos := make([]ImageInfo, 0, len(imagePaths))
+	for _, path := range imagePaths {
+		hash, err := compute(path)
+		if err != nil {
+			return nil, err
+		}
+		newImageInfo := ImageInfo{Path: path, HashCode: hash}
+		imageInfos = append(imageInfos, newImageInfo)
+	}
+
+	return imageInfos, nil
+}
+
 func main() {
 	var rootDir string
 	flag.StringVar(&rootDir, "root-dir", ".", "Root directory. Defaults to .")
@@ -50,10 +88,10 @@ func main() {
 		return
 	}
 
-	for _, imagePath := range allImages {
-		fmt.Printf("Found image under %q\n", imagePath)
-	}
+	infos, err := computeHashes(allImages, calculateHash)
 
-	fmt.Println(rootDir)
+	for _, info := range infos {
+		fmt.Printf("Found image under %q; HashCode: %q\n", info.Path, info.HashCode)
+	}
 
 }
