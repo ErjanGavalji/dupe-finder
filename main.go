@@ -18,6 +18,11 @@ type ImageInfo struct {
 	HashCode string
 }
 
+type Dupe struct {
+	info  ImageInfo
+	dupes []ImageInfo
+}
+
 func isImage(path string) bool {
 	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
 	ext := strings.ToLower(filepath.Ext(path))
@@ -74,6 +79,11 @@ func computeHashes(imagePaths []string, compute func(path string) (string, error
 	}
 
 	return imageInfos, nil
+}
+
+func findDupes(infos []string) []Dupe {
+	var dupes []Dupe
+	return dupes
 }
 
 func main() {
