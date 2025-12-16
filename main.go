@@ -86,29 +86,7 @@ func findDupes(infos []string) []Dupe {
 	return dupes
 }
 
-func addOne(myNum *int) {
-	*myNum = *myNum + 1
-}
-
-type MyStr struct {
-	Num int
-}
-
 func main() {
-	var myVar int = 0
-
-	fmt.Printf("MyVar before: %v\n", myVar)
-	addOne(&myVar)
-	fmt.Printf("MyVar after: %v\n", myVar)
-
-	var myStr MyStr = MyStr{Num: 3}
-	fmt.Printf("MyStr.Num before: %v\n", myStr.Num)
-	addOne(&myStr.Num)
-	fmt.Printf("MyStr.Num after: %v\n", myStr.Num)
-
-	if myVar != 5000 {
-		return
-	}
 
 	var rootDir string
 	flag.StringVar(&rootDir, "root-dir", ".", "Root directory. Defaults to .")
