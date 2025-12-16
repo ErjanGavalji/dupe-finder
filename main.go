@@ -81,9 +81,22 @@ func computeHashes(imagePaths []string, compute func(path string) (string, error
 	return imageInfos, nil
 }
 
-func findDupes(infos []string) []Dupe {
-	var dupes []Dupe
-	return dupes
+func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
+	var dupeMap map[string][]ImageInfo = make(map[string][]ImageInfo)
+
+	for _, info := range infos {
+
+		for _, ptDupe := range infos {
+			if info.HashCode == ptDupe.HashCode && info.Path != ptDupe.Path {
+				if dupeMap[info.HashCode] == nil {
+					dupeMap[info.HashCode] = make([]ImageInfo, 0)
+				}
+				dupeMap[info.HashCode] = append(dupeMap[info.HashCode], ptDupe)
+			}
+		}
+	}
+
+	return dupeMap
 }
 
 func main() {
@@ -104,5 +117,11 @@ func main() {
 	for _, info := range infos {
 		fmt.Printf("Found image under %q; HashCode: %q\n", info.Path, info.HashCode)
 	}
+
+	var zeMap = getDupeMap(infos)
+	fmt.Printf("There are %v duplicated items\n", len(zeMap))
+	fmt.Println("Here they are:")
+	fmt.Println("================================================================================")
+	fmt.Printf("%v\n", zeMap)
 
 }
