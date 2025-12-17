@@ -99,6 +99,14 @@ func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
 	return dupeMap
 }
 
+// Prints the ImageMap based on a specified analysis pattern.
+// For example, there might be entire directories duplicated and we'd rather
+// print them instead of every single image path. Additionally, we'd print the
+// level of folder duplicacy if it is above a certain treshold.
+func printMap(map[string][]ImageInfo) {
+
+}
+
 func main() {
 
 	var rootDir string
