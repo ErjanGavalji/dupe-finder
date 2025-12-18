@@ -13,6 +13,11 @@ import (
 	"strings"
 )
 
+// First of all, we need to be able to have multiple directories as inputs, as
+//  I have backups of my photos all around. Some exist at locationA and
+//  locationB, while other duplicate directories exist at locations B and C and
+//  D. A third set exist in all the locations.
+
 type ImageInfo struct {
 	Path     string
 	HashCode string

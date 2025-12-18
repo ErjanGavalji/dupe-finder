@@ -1,0 +1,16 @@
+# Image Backup Consolidator
+
+## Purpose
+
+I have a lot of photos gathered through the years. I have made tons of backups
+to all kinds of external hard disks, CDs or flash drives.
+
+I want to have those consolidated in a single location, which will be the
+"source of truth" and use a decent backup software (probably Restic). Then, free
+all the other hardware from those photos for other uses.
+
+With tens of thousands of image files, some resized versions of the originals, I
+need to build a map the duplicates, analyze the trees of directories (as some
+images are inside different subdirectories as earlier attempts to organize all)
+and finally, present a suggestion for the easiest action. Applying the action is
+an option as well.
