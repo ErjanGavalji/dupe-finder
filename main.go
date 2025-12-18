@@ -34,7 +34,20 @@ func isImage(path string) bool {
 	return slices.Contains(validExts, ext)
 }
 
-func readImages(rootDir string) (images []string, err error) {
+func readImages(rootDirs []string) (images []string, err error) {
+	var allImagePaths []string
+	for _, rootDir := range rootDirs {
+		imagePaths, err := readDirImages(rootDir)
+		if err != nil {
+			fmt.Printf("Error reading images in dir %q\n", rootDir)
+			return nil, err
+		}
+		allImagePaths = append(allImagePaths, imagePaths...)
+	}
+	return allImagePaths, nil
+}
+
+func readDirImages(rootDir string) (images []string, err error) {
 	var allImages []string
 	walkErr := filepath.Walk(rootDir, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -126,7 +139,7 @@ func main() {
 	flag.StringVar(&rootDir, "root-dir", ".", "Root directory. Defaults to .")
 	flag.Parse()
 
-	allImages, err := readImages(rootDir)
+	allImages, err := readImages([]string{rootDir})
 
 	if err != nil {
 		fmt.Printf("Error walking the path %q: %v\n", rootDir, err)
