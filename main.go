@@ -99,9 +99,14 @@ func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
 	return dupeMap
 }
 
-func getDuplicateDirs(infos map[string][]ImageInfo) map[string][]string {
-	return make(map[string][]string)
-}
+//func getDuplicateDirs(infos map[string][]ImageInfo) map[string][]string {
+//	dirs := make(map[string]string, 0)
+//	for _, info := range infos {
+//		infoDir := filepath.Dir(info.Path)
+//		dirs[infoDir]
+//	}
+//	return make(map[string][]string)
+//}
 
 // Prints the ImageMap based on a specified analysis pattern.
 // For example, there might be entire directories duplicated and we'd rather
