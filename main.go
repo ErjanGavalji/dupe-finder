@@ -131,14 +131,14 @@ func printMap(infos map[string][]imagereader.ImageInfo) {
 
 func main() {
 
-	var rootDir string
-	flag.StringVar(&rootDir, "root-dir", ".", "Root directory. Defaults to .")
+	var rootDirs stringArrayFlags
+	flag.Var(&rootDirs, "root-dirs", "Root directories, multiple instances. If none specified, reads the current directory only")
 	flag.Parse()
 
-	allImages, err := readImages([]string{rootDir})
+	allImages, err := readImages(rootDirs)
 
 	if err != nil {
-		fmt.Printf("Error walking the path %q: %v\n", rootDir, err)
+		fmt.Printf("Error walking the path %q: %v\n", rootDirs, err)
 		return
 	}
 
