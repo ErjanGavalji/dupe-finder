@@ -95,15 +95,15 @@ func computeHashes(imagePaths []string, compute func(path string) (string, error
 	return imageInfos, nil
 }
 
-func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
-	var dupeMap map[string][]ImageInfo = make(map[string][]ImageInfo)
+func getDupeMap(infos []imagereader.ImageInfo) map[string][]imagereader.ImageInfo {
+	var dupeMap map[string][]imagereader.ImageInfo = make(map[string][]imagereader.ImageInfo)
 
 	for _, info := range infos {
 
 		for _, ptDupe := range infos {
 			if info.HashCode == ptDupe.HashCode && info.Path != ptDupe.Path {
 				if dupeMap[info.HashCode] == nil {
-					dupeMap[info.HashCode] = make([]ImageInfo, 0)
+					dupeMap[info.HashCode] = make([]imagereader.ImageInfo, 0)
 				}
 				dupeMap[info.HashCode] = append(dupeMap[info.HashCode], ptDupe)
 			}
@@ -113,7 +113,7 @@ func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
 	return dupeMap
 }
 
-//func getDuplicateDirs(infos map[string][]ImageInfo) map[string][]string {
+//func getDuplicateDirs(infos map[string][]imagereader.ImageInfo) map[string][]string {
 //	dirs := make(map[string]string, 0)
 //	for _, info := range infos {
 //		infoDir := filepath.Dir(info.Path)
@@ -126,7 +126,7 @@ func getDupeMap(infos []ImageInfo) map[string][]ImageInfo {
 // For example, there might be entire directories duplicated and we'd rather
 // print them instead of every single image path. Additionally, we'd print the
 // level of folder duplicacy if it is above a certain treshold.
-func printMap(infos map[string][]ImageInfo) {
+func printMap(infos map[string][]imagereader.ImageInfo) {
 }
 
 func main() {
