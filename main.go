@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/md5"
+	imagereader "dupe-finder/image-reader"
 	"encoding/hex"
 	"flag"
 	"fmt"
@@ -14,18 +15,13 @@ import (
 )
 
 // First of all, we need to be able to have multiple directories as inputs, as
-//  I have backups of my photos all around. Some exist at locationA and
-//  locationB, while other duplicate directories exist at locations B and C and
-//  D. A third set exist in all the locations.
-
-type ImageInfo struct {
-	Path     string
-	HashCode string
-}
-
+//
+//	I have backups of my photos all around. Some exist at locationA and
+//	locationB, while other duplicate directories exist at locations B and C and
+//	D. A third set exist in all the locations.
 type Dupe struct {
-	info  ImageInfo
-	dupes []ImageInfo
+	info  imagereader.ImageInfo
+	dupes []imagereader.ImageInfo
 }
 
 func isImage(path string) bool {
@@ -85,14 +81,14 @@ func calculateHash(path string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-func computeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []ImageInfo, err error) {
-	imageInfos := make([]ImageInfo, 0, len(imagePaths))
+func computeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []imagereader.ImageInfo, err error) {
+	imageInfos := make([]imagereader.ImageInfo, 0, len(imagePaths))
 	for _, path := range imagePaths {
 		hash, err := compute(path)
 		if err != nil {
 			return nil, err
 		}
-		newImageInfo := ImageInfo{Path: path, HashCode: hash}
+		newImageInfo := imagereader.ImageInfo{Path: path, HashCode: hash}
 		imageInfos = append(imageInfos, newImageInfo)
 	}
 
