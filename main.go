@@ -129,11 +129,16 @@ func getDupeMap(infos []imagereader.ImageInfo) map[string][]imagereader.ImageInf
 func printMap(infos map[string][]imagereader.ImageInfo) {
 }
 
-func main() {
-
-	var rootDirs stringArrayFlags
-	flag.Var(&rootDirs, "root-dirs", "Root directories, multiple instances. If none specified, reads the current directory only")
+func parseArgs() (rootDirs []string) {
+	var rootDirsArg stringArrayFlags
+	flag.Var(&rootDirsArg, "root-dirs", "Root directories, multiple instances. If none specified, reads the current directory only")
 	flag.Parse()
+
+	return rootDirsArg
+}
+
+func main() {
+	rootDirs := parseArgs()
 
 	allImages, err := readImages(rootDirs)
 
