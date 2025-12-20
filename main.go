@@ -132,6 +132,14 @@ func printMap(infos map[string][]imagereader.ImageInfo) {
 func parseArgs() (rootDirs []string) {
 	var rootDirsArg stringArrayFlags
 	flag.Var(&rootDirsArg, "root-dirs", "Root directories, multiple instances. If none specified, reads the current directory only")
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "\n\nAnalyzes the provided directories for duplicate files and folders.\n")
+		fmt.Fprintf(os.Stderr, "Usage: %s [options]\n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Options:\n")
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
 
 	return rootDirsArg
