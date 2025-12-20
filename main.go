@@ -139,6 +139,9 @@ func parseArgs() (rootDirs []string) {
 
 func main() {
 	rootDirs := parseArgs()
+	if len(rootDirs) == 0 {
+		rootDirs = append(rootDirs, ".")
+	}
 
 	allImages, err := readImages(rootDirs)
 
