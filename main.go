@@ -1,15 +1,10 @@
 package main
 
 import (
-	"crypto/md5"
 	imagereader "dupe-finder/image-reader"
-	"encoding/hex"
 	"flag"
 	"fmt"
-	"io"
-	"io/fs"
 	"os"
-	"path/filepath"
 )
 
 // First of all, we need to be able to have multiple directories as inputs, as
@@ -20,71 +15,6 @@ import (
 type Dupe struct {
 	info  imagereader.ImageInfo
 	dupes []imagereader.ImageInfo
-}
-
-func readImages(rootDirs []string) (images []string, err error) {
-	var allImagePaths []string
-	for _, rootDir := range rootDirs {
-		imagePaths, err := readDirImages(rootDir)
-		if err != nil {
-			fmt.Printf("Error reading images in dir %q\n", rootDir)
-			return nil, err
-		}
-		allImagePaths = append(allImagePaths, imagePaths...)
-	}
-	return allImagePaths, nil
-}
-
-func readDirImages(rootDir string) (images []string, err error) {
-	var allImages []string
-	walkErr := filepath.Walk(rootDir, func(path string, info fs.FileInfo, err error) error {
-		if err != nil {
-			fmt.Printf("prevent panic by handling failure accessing %q: %v\n", path, err)
-			return err
-		}
-
-		if info.IsDir() {
-			return nil
-		}
-		if imagereader.IsImage(path) {
-			allImages = append(allImages, path)
-		}
-
-		return nil
-	})
-	if walkErr != nil {
-		return nil, walkErr
-	}
-	return allImages, nil
-}
-
-func calculateHash(path string) (string, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
-
-	hash := md5.New()
-	if _, err := io.Copy(hash, file); err != nil {
-		return "", err
-	}
-
-	return hex.EncodeToString(hash.Sum(nil)), nil
-}
-
-func computeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []imagereader.ImageInfo, err error) {
-	imageInfos := make([]imagereader.ImageInfo, 0, len(imagePaths))
-	for _, path := range imagePaths {
-		hash, err := compute(path)
-		if err != nil {
-			return nil, err
-		}
-		newImageInfo := imagereader.ImageInfo{Path: path, HashCode: hash}
-		imageInfos = append(imageInfos, newImageInfo)
-	}
-
-	return imageInfos, nil
 }
 
 func getDupeMap(infos []imagereader.ImageInfo) map[string][]imagereader.ImageInfo {
@@ -143,14 +73,14 @@ func main() {
 		rootDirs = append(rootDirs, ".")
 	}
 
-	allImages, err := readImages(rootDirs)
+	allImages, err := imagereader.ReadImages(rootDirs)
 
 	if err != nil {
 		fmt.Printf("Error walking the path %q: %v\n", rootDirs, err)
 		return
 	}
 
-	infos, err := computeHashes(allImages, calculateHash)
+	infos, err := imagereader.ComputeHashes(allImages, imagereader.CalculateHash)
 
 	for _, info := range infos {
 		fmt.Printf("Found image under %q; HashCode: %q\n", info.Path, info.HashCode)
