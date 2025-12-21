@@ -10,8 +10,6 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"slices"
-	"strings"
 )
 
 // First of all, we need to be able to have multiple directories as inputs, as
@@ -22,12 +20,6 @@ import (
 type Dupe struct {
 	info  imagereader.ImageInfo
 	dupes []imagereader.ImageInfo
-}
-
-func isImage(path string) bool {
-	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
-	ext := strings.ToLower(filepath.Ext(path))
-	return slices.Contains(validExts, ext)
 }
 
 func readImages(rootDirs []string) (images []string, err error) {
@@ -54,7 +46,7 @@ func readDirImages(rootDir string) (images []string, err error) {
 		if info.IsDir() {
 			return nil
 		}
-		if isImage(path) {
+		if imagereader.IsImage(path) {
 			allImages = append(allImages, path)
 		}
 
