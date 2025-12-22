@@ -1,5 +1,8 @@
 # Image Backup Consolidator
 
+A tool to identify duplicate images across multiple backup locations and
+consolidate them into a single source of truth.
+
 ## Purpose
 
 I have a lot of photos gathered through the years. I have made tons of backups
