@@ -23,7 +23,18 @@ func isImage(path string) bool {
 	return slices.Contains(validExts, ext)
 }
 
-func ReadImages(rootDirs []string) (images []string, err error) {
+func GetImageInfos(rootDirs []string) (infos []ImageInfo, err error) {
+	allImages, err := readImages(rootDirs)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return computeHashes(allImages, calculateHash)
+
+}
+
+func readImages(rootDirs []string) (images []string, err error) {
 	var allImagePaths []string
 	for _, rootDir := range rootDirs {
 		imagePaths, err := readDirImages(rootDir)
@@ -59,7 +70,7 @@ func readDirImages(rootDir string) (images []string, err error) {
 	return allImages, nil
 }
 
-func CalculateHash(path string) (string, error) {
+func calculateHash(path string) (string, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return "", err
@@ -74,7 +85,7 @@ func CalculateHash(path string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-func ComputeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []ImageInfo, err error) {
+func computeHashes(imagePaths []string, compute func(path string) (string, error)) (infos []ImageInfo, err error) {
 	imageInfos := make([]ImageInfo, 0, len(imagePaths))
 	for _, path := range imagePaths {
 		hash, err := compute(path)
