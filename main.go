@@ -67,20 +67,28 @@ func parseArgs() (rootDirs []string) {
 	return rootDirsArg
 }
 
+func getImageInfos(rootDirs []string) (infos []imagereader.ImageInfo, err error) {
+	allImages, err := imagereader.ReadImages(rootDirs)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return imagereader.ComputeHashes(allImages, imagereader.CalculateHash)
+
+}
+
 func main() {
 	rootDirs := parseArgs()
 	if len(rootDirs) == 0 {
 		rootDirs = append(rootDirs, ".")
 	}
 
-	allImages, err := imagereader.ReadImages(rootDirs)
-
+	infos, err := getImageInfos(rootDirs)
 	if err != nil {
-		fmt.Printf("Error walking the path %q: %v\n", rootDirs, err)
+		fmt.Printf("Error walking the dirs %q: %v\n", rootDirs, err)
 		return
 	}
-
-	infos, err := imagereader.ComputeHashes(allImages, imagereader.CalculateHash)
 
 	for _, info := range infos {
 		fmt.Printf("Found image under %q; HashCode: %q\n", info.Path, info.HashCode)
