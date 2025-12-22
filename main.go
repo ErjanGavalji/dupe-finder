@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dupe-finder/analyzer"
 	imagereader "dupe-finder/image-reader"
 	"flag"
 	"fmt"
@@ -68,6 +69,7 @@ func parseArgs() (rootDirs []string) {
 }
 
 func main() {
+	analyzer.DoSomething()
 	rootDirs := parseArgs()
 	if len(rootDirs) == 0 {
 		rootDirs = append(rootDirs, ".")
