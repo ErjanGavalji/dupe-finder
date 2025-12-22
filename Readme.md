@@ -5,18 +5,16 @@ consolidate them into a single source of truth.
 
 ## Purpose
 
-I have a lot of photos gathered through the years. I have made tons of backups
-to all kinds of external hard disks, CDs or flash drives.
+Photos accumulated over years are scattered across multiple backup locations
+(external hard disks, CDs, flash drives). With tens of thousands of image files—
+including resized versions and various attempts to organize, it gets difficult
+to identify what's truly unique, not to mention the disk space wasted.
 
-I want to have those consolidated in a single location, which will be the
-"source of truth" and use a decent backup software (probably Restic). Then, free
-all the other hardware from those photos for other uses.
+## The Goal
 
-With tens of thousands of image files, some resized versions of the originals, I
-need to build a map the duplicates, analyze the trees of directories (as some
-images are inside different subdirectories as earlier attempts to organize all)
-and finally, present a suggestion for the easiest action. Applying the action is
-an option as well.
+Analyze files and folders in specified root directories and present a way to
+inspect the duplicates. Then, suggest ways to consolidate all photos into a
+single source of truth.
 
 ## (Current) Idea
 
@@ -35,3 +33,9 @@ review.
 
 **Ignore patterns:** Support for excluding system files (thumbs.db, .DS_Store,
 etc.) will be included.
+
+## User Experience
+
+The presentation will be user-centric: the entire duplicate structure should be
+understandable at a glance, without requiring navigation between pages or
+remembering information from different views.
