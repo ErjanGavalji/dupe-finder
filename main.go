@@ -73,7 +73,7 @@ func main() {
 		rootDirs = append(rootDirs, ".")
 	}
 
-	infos, err := imagereader.GetImageInfos(rootDirs)
+	infos, err := imagereader.ReadImages(rootDirs)
 	if err != nil {
 		fmt.Printf("Error walking the dirs %q: %v\n", rootDirs, err)
 		return

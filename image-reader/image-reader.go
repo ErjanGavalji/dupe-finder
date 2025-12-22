@@ -17,14 +17,8 @@ type ImageInfo struct {
 	HashCode string
 }
 
-func isImage(path string) bool {
-	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
-	ext := strings.ToLower(filepath.Ext(path))
-	return slices.Contains(validExts, ext)
-}
-
-func GetImageInfos(rootDirs []string) (infos []ImageInfo, err error) {
-	allImages, err := readImages(rootDirs)
+func ReadImages(rootDirs []string) (infos []ImageInfo, err error) {
+	allImages, err := readImagePaths(rootDirs)
 
 	if err != nil {
 		return nil, err
@@ -34,7 +28,13 @@ func GetImageInfos(rootDirs []string) (infos []ImageInfo, err error) {
 
 }
 
-func readImages(rootDirs []string) (images []string, err error) {
+func isImage(path string) bool {
+	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
+	ext := strings.ToLower(filepath.Ext(path))
+	return slices.Contains(validExts, ext)
+}
+
+func readImagePaths(rootDirs []string) (images []string, err error) {
 	var allImagePaths []string
 	for _, rootDir := range rootDirs {
 		imagePaths, err := readDirImages(rootDir)
