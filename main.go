@@ -69,7 +69,6 @@ func parseArgs() (rootDirs []string) {
 }
 
 func main() {
-	analyzer.DoSomething()
 	rootDirs := parseArgs()
 	if len(rootDirs) == 0 {
 		rootDirs = append(rootDirs, ".")
@@ -84,6 +83,9 @@ func main() {
 	for _, info := range infos {
 		fmt.Printf("Found image under %q; HashCode: %q\n", info.Path, info.HashCode)
 	}
+
+	dupes := analyzer.Drill(infos)
+	fmt.Printf("\n\nDupes: %v\n\n\n", dupes)
 
 	var zeMap = getDupeMap(infos)
 	fmt.Printf("There are %v duplicated items\n", len(zeMap))
