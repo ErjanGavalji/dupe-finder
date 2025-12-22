@@ -20,11 +20,18 @@ an option as well.
 
 ## (Current) Idea
 
-I will not try to reconstruct the file system for the time being.
+The tool will:
 
-I will have a list of all the directories (identified by a path). Each directory
-will have a list of files. Right now, this is for image files only, but I'd
-rather read any file, as that might lead to the deletion of a non-image file
-that exists in one folder, but doesn't exist in another, simply because all the
-image files were the same. Of course, it would be good to specify ignored
-filename patterns (thumbs.db, .DS_Store, etc)
+- Build a list of all directories (identified by path)
+- For each directory, catalog all files
+- Each file has a list of duplicates
+- Each directory has a list of duplicates above a certain percentage of
+  duplication (specified through the command line)
+
+**Scope:** While the primary focus is image files, the tool should process all
+files. This helps identify directories that are complete duplicates—if all
+images match, a non-image file present in only one location can be flagged for
+review.
+
+**Ignore patterns:** Support for excluding system files (thumbs.db, .DS_Store,
+etc.) will be included.
