@@ -2,7 +2,7 @@ package analyzer
 
 import (
 	imagereader "dupe-finder/image-reader"
-	"fmt"
+	"path/filepath"
 )
 
 // TODO: This might be totally unnecessary, as we will have the path
@@ -13,9 +13,20 @@ type DirInfo struct {
 	ImageInfos []imagereader.ImageInfo
 }
 
-func Drill(infos []imagereader.ImageInfo) map[string]DirInfo {
-	dirInfos := make(map[string]DirInfo, 0)
+func (dirInfo *DirInfo) add(imageInfo imagereader.ImageInfo) {
+	(*dirInfo).ImageInfos = append((*dirInfo).ImageInfos, imageInfo)
+}
 
-	fmt.Printf("Heeeey, this is someting from the analyzer package")
+func Drill(infos []imagereader.ImageInfo) map[string]*DirInfo {
+	dirInfos := make(map[string]*DirInfo, 0)
+
+	for _, info := range infos {
+		dir := filepath.Dir(info.Path)
+		if _, ok := dirInfos[dir]; !ok {
+			dirInfos[dir] = &DirInfo{dir, make([]imagereader.ImageInfo, 0)}
+		}
+		dirInfos[dir].add(info)
+	}
+
 	return dirInfos
 }
