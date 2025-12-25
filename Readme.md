@@ -10,6 +10,11 @@ Photos accumulated over years are scattered across multiple backup locations
 including resized versions and various attempts to organize, it gets difficult
 to identify what's truly unique, not to mention the disk space wasted.
 
+## Status
+
+**Work in Progress** - Core functionality is being implemented while the idea
+crystallizes. Not yet ready for use.
+
 ## The Goal
 
 Analyze files and folders in specified root directories and present a way to
