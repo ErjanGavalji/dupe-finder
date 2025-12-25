@@ -14,7 +14,7 @@ type DirInfo struct {
 }
 
 func (dirInfo *DirInfo) add(imageInfo imagereader.ImageInfo) {
-	(*dirInfo).ImageInfos = append((*dirInfo).ImageInfos, imageInfo)
+	dirInfo.ImageInfos = append(dirInfo.ImageInfos, imageInfo)
 }
 
 func Drill(infos []imagereader.ImageInfo) map[string]*DirInfo {
