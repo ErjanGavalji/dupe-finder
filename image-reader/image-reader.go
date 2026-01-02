@@ -29,9 +29,8 @@ func ReadImages(rootDirs []string) (infos []ImageInfo, err error) {
 }
 
 // TODO: This is an interesting moment. I am not sure whether this application
-//
-//	will only be used for image files. Additionally, extensions would probably
-//	be better passed from the outside so that it is flexible.
+// will only be used for image files. Additionally, extensions would probably be
+// better passed from the outside so that it is flexible.
 func isImage(path string) bool {
 	validExts := []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
 	ext := strings.ToLower(filepath.Ext(path))
