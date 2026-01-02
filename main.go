@@ -8,11 +8,10 @@ import (
 	"os"
 )
 
-// First of all, we need to be able to have multiple directories as inputs, as
-//
-//	I have backups of my photos all around. Some exist at locationA and
-//	locationB, while other duplicate directories exist at locations B and C and
-//	D. A third set exist in all the locations.
+// First of all, we need to be able to have multiple directories as inputs, as I
+// have backups of my photos all around. Some exist at locationA and locationB,
+// while other duplicate directories exist at locations B and C and D. A third
+// set exist in all the locations.
 type Dupe struct {
 	info  imagereader.ImageInfo
 	dupes []imagereader.ImageInfo
@@ -45,10 +44,10 @@ func getDupeMap(infos []imagereader.ImageInfo) map[string][]imagereader.ImageInf
 //	return make(map[string][]string)
 //}
 
-// Prints the ImageMap based on a specified analysis pattern.
-// For example, there might be entire directories duplicated and we'd rather
-// print them instead of every single image path. Additionally, we'd print the
-// level of folder duplicacy if it is above a certain treshold.
+// Prints the ImageMap based on a specified analysis pattern. For example, there
+// might be entire directories duplicated and we'd rather print them instead of
+// every single image path. Additionally, we'd print the level of folder
+// duplicacy if it is above a certain treshold.
 func printMap(infos map[string][]imagereader.ImageInfo) {
 }
 

@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 )
 
-// TODO: This might be totally unnecessary, as we will have the path
-//  duplicated, as it is used as a key of the map
+// TODO: This might be totally unnecessary, as we will have the path duplicated,
+// as it is used as a key of the map
 
 type DirInfo struct {
 	Path       string
