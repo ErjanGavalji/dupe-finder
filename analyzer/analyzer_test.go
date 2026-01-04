@@ -18,6 +18,21 @@ func TestDrill(t *testing.T) {
 			input:    []imagereader.ImageInfo{},
 			wantDirs: 0,
 		},
+		{
+			name: "one image - one dir",
+			input: []imagereader.ImageInfo{
+				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
+			},
+			wantDirs: 1,
+		},
+		{
+			name: "two images in same dir - one dir",
+			input: []imagereader.ImageInfo{
+				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
+				imagereader.ImageInfo{Path: "/dir1/image2.png", HashCode: "hash2"},
+			},
+			wantDirs: 1,
+		},
 	}
 
 	for _, tt := range tests {
