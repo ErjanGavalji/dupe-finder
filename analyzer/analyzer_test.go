@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestDrill(t *testing.T) {
+func TestDirAnalysis(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    []imagereader.ImageInfo
@@ -32,6 +32,14 @@ func TestDrill(t *testing.T) {
 				imagereader.ImageInfo{Path: "/dir1/image2.png", HashCode: "hash2"},
 			},
 			wantDirs: 1,
+		},
+		{
+			name: "two images in different dirs - two dirs",
+			input: []imagereader.ImageInfo{
+				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
+				imagereader.ImageInfo{Path: "/dir2/image2.png", HashCode: "hash2"},
+			},
+			wantDirs: 2,
 		},
 	}
 
