@@ -56,5 +56,31 @@ func TestDirAnalysis(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestDupeIdentification(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []imagereader.ImageInfo
+		// Note, for simplicity, for the time being we will give fake duplucates
+		// here to avoid having preliminarily assigned imageInfos. Though that might
+		// be the proper thing in the future.
+		expectedOutput map[string]analyzer.DirInfo
+	}{
+		{
+			name:           "Empty",
+			input:          []imagereader.ImageInfo{},
+			expectedOutput: make(map[string]analyzer.DirInfo),
+		},
+	}
+
+	for _, tt := range tests {
+		result := analyzer.Drill(tt.input)
+
+		if len(result) != len(tt.expectedOutput) {
+			t.Errorf("result output length does not match the one of the expected output")
+		}
+	}
+
+	//TODO: Complete the comparison here!
 }
