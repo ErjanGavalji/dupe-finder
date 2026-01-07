@@ -71,19 +71,61 @@ func TestDupeIdentification(t *testing.T) {
 		expectedOutput map[string]*analyzer.DirInfo
 	}{
 		{
-			name:           "Empty",
+			name:           "empty",
 			input:          []imagereader.ImageInfo{},
 			expectedOutput: make(map[string]*analyzer.DirInfo, 0),
 		},
 		{
-			name: "Single",
+			name: "single",
 			input: []imagereader.ImageInfo{
-				{Path: "d1/f1", HashCode: "Code1"},
+				{Path: "d1/d1f1", HashCode: "Code1"},
 			},
 			expectedOutput: map[string]*analyzer.DirInfo{
 				"d1": {
 					Path:       "d1",
-					ImageInfos: []imagereader.ImageInfo{{Path: "d1/f1", HashCode: "Code1"}},
+					ImageInfos: []imagereader.ImageInfo{{Path: "d1/d1f1", HashCode: "Code1"}},
+				},
+			},
+		},
+		{
+			name: "two different files in dirs",
+			input: []imagereader.ImageInfo{
+				{Path: "d1/d1f1", HashCode: "Code1"},
+				{Path: "d2/d2f1", HashCode: "Code2"},
+			},
+			expectedOutput: map[string]*analyzer.DirInfo{
+				"d1": {
+					Path:       "d1",
+					ImageInfos: []imagereader.ImageInfo{{Path: "d1/d1f1", HashCode: "Code1"}},
+				},
+				"d2": {
+					Path:       "d2",
+					ImageInfos: []imagereader.ImageInfo{{Path: "d2/d2f1", HashCode: "Code2"}},
+				},
+			},
+		},
+		{
+			name: "four different files in two dirs",
+			input: []imagereader.ImageInfo{
+				{Path: "d1/d1f1", HashCode: "Code11"},
+				{Path: "d1/d1f2", HashCode: "Code12"},
+				{Path: "d2/d2f1", HashCode: "Code21"},
+				{Path: "d2/d2f2", HashCode: "Code22"},
+			},
+			expectedOutput: map[string]*analyzer.DirInfo{
+				"d1": {
+					Path: "d1",
+					ImageInfos: []imagereader.ImageInfo{
+						{Path: "d1/d1f1", HashCode: "Code11"},
+						{Path: "d1/d1f2", HashCode: "Code12"},
+					},
+				},
+				"d2": {
+					Path: "d2",
+					ImageInfos: []imagereader.ImageInfo{
+						{Path: "d2/d2f1", HashCode: "Code21"},
+						{Path: "d2/d2f2", HashCode: "Code22"},
+					},
 				},
 			},
 		},
