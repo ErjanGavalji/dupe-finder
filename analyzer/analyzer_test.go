@@ -4,6 +4,9 @@ import (
 	"dupe-finder/analyzer"
 	imagereader "dupe-finder/image-reader"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestDirAnalysis(t *testing.T) {
@@ -81,6 +84,29 @@ func TestDupeIdentification(t *testing.T) {
 			t.Errorf("result output length does not match the one of the expected output")
 		}
 
-		//TODO: Complete the comparison here!
+		for key := range tt.expectedOutput {
+			if _, exists := result[key]; !exists {
+				t.Errorf("expected key %q not found in result", key)
+			}
+		}
+
+		for key := range result {
+			if _, exists := tt.expectedOutput[key]; !exists {
+				t.Errorf("unexpected key %q found in result", key)
+			}
+		}
+
+		opts := []cmp.Option{
+			cmpopts.SortSlices(func(a, b imagereader.ImageInfo) bool {
+				if a.Path != b.Path {
+					return a.Path < b.Path
+				}
+				return a.HashCode < b.HashCode
+			}),
+		}
+
+		if diff := cmp.Diff(tt.expectedOutput, result, opts...); diff != "" {
+			t.Errorf("Drill() mismatch (-want +got):\n%s", diff)
+		}
 	}
 }
