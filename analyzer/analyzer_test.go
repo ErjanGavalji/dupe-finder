@@ -24,23 +24,23 @@ func TestDirAnalysis(t *testing.T) {
 		{
 			name: "one image - one dir",
 			input: []imagereader.ImageInfo{
-				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
+				{Path: "/dir1/image1.png", HashCode: "hash1"},
 			},
 			wantDirs: 1,
 		},
 		{
 			name: "two images in same dir - one dir",
 			input: []imagereader.ImageInfo{
-				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
-				imagereader.ImageInfo{Path: "/dir1/image2.png", HashCode: "hash2"},
+				{Path: "/dir1/image1.png", HashCode: "hash1"},
+				{Path: "/dir1/image2.png", HashCode: "hash2"},
 			},
 			wantDirs: 1,
 		},
 		{
 			name: "two images in different dirs - two dirs",
 			input: []imagereader.ImageInfo{
-				imagereader.ImageInfo{Path: "/dir1/image1.png", HashCode: "hash1"},
-				imagereader.ImageInfo{Path: "/dir2/image2.png", HashCode: "hash2"},
+				{Path: "/dir1/image1.png", HashCode: "hash1"},
+				{Path: "/dir2/image2.png", HashCode: "hash2"},
 			},
 			wantDirs: 2,
 		},
@@ -73,6 +73,13 @@ func TestDupeIdentification(t *testing.T) {
 		{
 			name:           "Empty",
 			input:          []imagereader.ImageInfo{},
+			expectedOutput: make(map[string]*analyzer.DirInfo, 0),
+		},
+		{
+			name: "Single",
+			input: []imagereader.ImageInfo{
+				{Path: "Path1", HashCode: "Code1"},
+			},
 			expectedOutput: make(map[string]*analyzer.DirInfo, 0),
 		},
 	}
