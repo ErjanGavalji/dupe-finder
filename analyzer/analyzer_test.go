@@ -80,7 +80,7 @@ func TestDupeIdentification(t *testing.T) {
 		if len(result) != len(tt.expectedOutput) {
 			t.Errorf("result output length does not match the one of the expected output")
 		}
-	}
 
-	//TODO: Complete the comparison here!
+		//TODO: Complete the comparison here!
+	}
 }
