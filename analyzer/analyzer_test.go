@@ -65,12 +65,12 @@ func TestDupeIdentification(t *testing.T) {
 		// Note, for simplicity, for the time being we will give fake duplucates
 		// here to avoid having preliminarily assigned imageInfos. Though that might
 		// be the proper thing in the future.
-		expectedOutput map[string]analyzer.DirInfo
+		expectedOutput map[string]*analyzer.DirInfo
 	}{
 		{
 			name:           "Empty",
 			input:          []imagereader.ImageInfo{},
-			expectedOutput: make(map[string]analyzer.DirInfo),
+			expectedOutput: make(map[string]*analyzer.DirInfo, 0),
 		},
 	}
 
