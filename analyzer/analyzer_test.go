@@ -78,9 +78,14 @@ func TestDupeIdentification(t *testing.T) {
 		{
 			name: "Single",
 			input: []imagereader.ImageInfo{
-				{Path: "Path1", HashCode: "Code1"},
+				{Path: "d1/f1", HashCode: "Code1"},
 			},
-			expectedOutput: make(map[string]*analyzer.DirInfo, 0),
+			expectedOutput: map[string]*analyzer.DirInfo{
+				"d1": {
+					Path:       "d1",
+					ImageInfos: []imagereader.ImageInfo{{Path: "d1/f1", HashCode: "Code1"}},
+				},
+			},
 		},
 	}
 
