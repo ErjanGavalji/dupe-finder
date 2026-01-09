@@ -129,6 +129,22 @@ func TestDupeIdentification(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "two same files with different names in single dir",
+			input: []imagereader.ImageInfo{
+				{Path: "d1/d1f1", HashCode: "Code11"},
+				{Path: "d1/d1f2", HashCode: "Code11"},
+			},
+			expectedOutput: map[string]*analyzer.DirInfo{
+				"d1": {
+					Path: "d1",
+					ImageInfos: []imagereader.ImageInfo{
+						{Path: "d1/d1f1", HashCode: "Code11"},
+						{Path: "d1/d1f2", HashCode: "Code11"},
+					},
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
